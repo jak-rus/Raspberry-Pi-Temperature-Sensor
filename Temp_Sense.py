@@ -4,7 +4,6 @@
 from email import message
 import smtplib
 import ssl
-import ssl
 import time
 import board
 import adafruit_dht
