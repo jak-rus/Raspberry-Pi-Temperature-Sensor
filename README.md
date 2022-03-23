@@ -19,6 +19,6 @@ The following features are things I would like to implement in the future:
 ## Current Bugs that will be Fixed
 - None at the momment, need to test it more.
 
-###Sources for the Project
-https://realpython.com/python-send-email/ 
-https://www.youtube.com/watch?v=EcyuKni3ZTo
+### Sources for the Project
+- https://realpython.com/python-send-email/ 
+- https://www.youtube.com/watch?v=EcyuKni3ZTo
