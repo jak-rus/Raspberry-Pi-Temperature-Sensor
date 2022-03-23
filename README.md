@@ -22,3 +22,18 @@ The following features are things I would like to implement in the future:
 ### Sources for the Project
 - https://realpython.com/python-send-email/ 
 - https://www.youtube.com/watch?v=EcyuKni3ZTo
+
+#### Raspberry Pi Implementation:
+1) Download the Raspberry Pi Imager (https://www.raspberrypi.com/software/)
+2) Download Raspian Lite
+3) Once finished put the sd card in the Raspberry Pi and allow it to boot up
+4) Take out the card and put it back into your computer
+5) The SD card should now be called boot on your computer
+6) Open the boot drive, navigate to the end of the cmdline text file and add
+- cgroup_memory=1 cgroup_enable=memory ip=[IP Address]::[GATEWAY]:[NETMASK]:[NAME OF DEVICE]:eth0:off  
+7) Then navigate to the config file and add this at the bottom
+- arm64bit = 1
+8) finally, to enable ssh, open powershell and change directories to the boot drive, then type "new-item ssh" after this you should be able to follow the resources above to complete the project.
+   
+
+
