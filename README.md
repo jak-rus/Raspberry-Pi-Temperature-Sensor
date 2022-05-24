@@ -44,7 +44,7 @@ Feel free to use the python script I have included here to run your own sensor, 
 - #!/usr/bin/python3 (This tells the service to run this file as a python program)
 - The try catch method is important to avoid letting errors stop the program, and you can include the while loop the way we did so that if you do get an error it keeps getting data until it has done so cleanly and continues on with the rest of the program
 - the line  smtpObj = smtplib.SMTP('[SMTP SERVER ADDRESS]') gives you an smtp server object that allows you to send emails from your postfix server to other emails through the smtp server adress you specified.
-- 
+
    
 
 
