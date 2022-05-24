@@ -45,6 +45,17 @@ Feel free to use the python script I have included here to run your own sensor, 
 - The try catch method is important to avoid letting errors stop the program, and you can include the while loop the way we did so that if you do get an error it keeps getting data until it has done so cleanly and continues on with the rest of the program
 - the line  smtpObj = smtplib.SMTP('[SMTP SERVER ADDRESS]') gives you an smtp server object that allows you to send emails from your postfix server to other emails through the smtp server adress you specified.
 
+### Creating the Service
+Again feel free to use the link above as a template and our version as a template but here are the specfic configuration tips we used:
+- in the resart field we used always that way whenever it ends (which with our script should only happen if the whole script is ran and finished) it will always restart after a certain amount of time indicated in the next field
+- in the restart sec field we used 3600 because that is how often we wanted the temperature sensor to check the temperature of the room it is in (once every hour)
+- To start the service run these two commands:
+- sudo systemctl start [service name]
+- sudo systemctl enable [service name] (this will make the service start on boot up
+- Any time you make changes to this file or the py file you should run these two commands to update the service and restart its daemon:
+- sudo systemctl restart [service name]
+- sudo systemctl daemon-reload
+
    
 
 
