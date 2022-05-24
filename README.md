@@ -50,11 +50,12 @@ Again feel free to use the link above as a template and our version as a templat
 - in the resart field we used always that way whenever it ends (which with our script should only happen if the whole script is ran and finished) it will always restart after a certain amount of time indicated in the next field
 - in the restart sec field we used 3600 because that is how often we wanted the temperature sensor to check the temperature of the room it is in (once every hour)
 - To start the service run these two commands:
-- sudo systemctl start [service name]
-- sudo systemctl enable [service name] (this will make the service start on boot up
+     sudo systemctl start [service name]
+     sudo systemctl enable [service name] (this will make the service start on boot up
 - Any time you make changes to this file or the py file you should run these two commands to update the service and restart its daemon:
-- sudo systemctl restart [service name]
-- sudo systemctl daemon-reload
+     sudo systemctl restart [service name]
+     sudo systemctl daemon-reload
+- also make sure you know whether to add /usr/ to your exec start directory or not this tripped us up a bit
 
    
 
