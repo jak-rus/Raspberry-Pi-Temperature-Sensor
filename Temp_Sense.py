@@ -1,61 +1,50 @@
-# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
-# SPDX-License-Identifier: MIT
-
-from email import message
+#!/usr/bin/python3
 import smtplib
-import ssl
-import time
+from email.mime.text import MIMEText
+from email.utils import COMMASPACE
 import board
 import adafruit_dht
+from datetime import datetime
+import sys
 
+error = True
+while error:
+    try:
 
-# Initial the dht device, with data pin connected to:
-#dhtDevice = adafruit_dht.DHT22(board.D18)
+        dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
 
-# you can pass DHT22 use_pulseio=False if you wouldn't like to use pulseio.
-# This may be necessary on a Linux single board computer like the Raspberry Pi,
-# but it will not work in CircuitPython.
-dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
+        temperature_c = dhtDevice.temperature
+        temperature_f = temperature_c * (9 / 5) + 32
+        humidity = dhtDevice.humidity
+        now = datetime.now()
+        date = now.strftime("%d%m%y %H:%M:%S")
+        error = False
+    except RuntimeError as er:
+        print(er.args[0])
+        continue
 
-port = 465 #for SSL
-password = [INSERT BOT EMAIL PASSWORD HERE]
-coolDownBoolean = False #added this boolean variable
-warningEventTime = 0.0
-passedTimeSinceWarnign = 0.0
+print(
 
-context = ssl.create_default_context()
+    date+": Temp: {:.1f} F / {:.1f} C Humidity: {}% ".format(
+        temperature_f, temperature_c, humidity
+        )
+)
 
-    
-with smtplib.SMTP_SSL("smtp.gmail.com", port, context = context) as server:
-    server.login([INSERT BOT EMAIL HERE], password)
-    while True:
-        try:
-            # Print the values to the serial port
-            temperature_c = dhtDevice.temperature
-            temperature_f = temperature_c * (9 / 5) + 32
-            humidity = dhtDevice.humidity
-            print(
-                "Temp: {:.1f} F / {:.1f} C    Humidity: {}% ".format(
-                    temperature_f, temperature_c, humidity
-                )
-            )
-	    #check to see if cooldown is running and over
-            if(temperature_f > 70 and not coolDownBoolean):
-                message = "The temperature of the server room as recorded by Temperature Senor - 01 is currently "+temperature_f+" which is higher than the recommended temperature."
-                server.sendmail([INSERT BOT EMAIL HERE],  [INSERT RECIPIANTS EMAIL HERE] , message)
-                print(message)
+sender= "[VALID SENDER EMAIL]"
+receivers = [LIST OF EMAILS AS STRINGS WITH EACH STRING SEPARATED BY A COMMA]
 
-                warningEventTime = time.time()
-                coolDownBoolean = True
-            elif(coolDownBoolean and (time.time() - warningEventTime >= 3600.0)):
-                coolDownBoolean = False
-        except RuntimeError as error:
-            #Errors happen fairly often, DHT's are hard to read, just keep going
-            print(error.args[0])
-            time.sleep(2.0)
-            continue
-        except Exception as error:
-            dhtDevice.exit()
-            raise error
-        #new test to see if this can get the program to stall two seconds between running the loop
-        time.sleep(2.0)
+message = MIMEText("The temperature of the server is currently "+str(temperature_f)+".\n the humidity is currently "+str(humidity)+".")
+
+message["Subject"] = "Test temperature sensor is too hot"
+message["From"] = sender
+message["To"] = COMMASPACE.join(receivers)
+
+if(temperature_f > 80.0 or humidity < 40.0):
+    try:
+        smtpObj = smtplib.SMTP('smtp.txstate.edu')
+        smtpObj.sendmail(sender, receivers, message.as_string())
+        print("Successfully sent email")
+    except SMTPException:
+        print("Error: unable to send email")
+if __name__=='__main__':
+    sys.exit()
