@@ -55,7 +55,7 @@ Each of these libraries are required to achieve full functionality of the temper
 
 ## Sources
 
-This project contains a lot of code that was refactored from open source projects and tutorials online. Here you will find a list of the sources that we used.
+This project contains a lot of code that was refactored from open source projects and tutorials online. Here you will find a list of the sources that we used. This list may not be exhaustive, and if you see that I have not given credit where it is due, please leave a comment or send me a message!
 
 * https://realpython.com/python-send-email/
 * https://www.youtube.com/watch?v=EcyuKni3ZTo
