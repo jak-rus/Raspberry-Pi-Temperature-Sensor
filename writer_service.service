@@ -1,0 +1,12 @@
+[Unit]
+Description=Service that will run the writer script keeping the current file updated with the current temp and humid
+#possibly add an after field so that the service will wait until the wifi network is connected or until the database we will use for the website is connected to the pi
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+ExecStart=/home/ubuntu/current_updater.py
+
+[Install]
+WantedBy=multi-user.target
