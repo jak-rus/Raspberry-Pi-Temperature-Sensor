@@ -6,7 +6,7 @@ Description=Service that will run the temperature sensor on startup and shut it 
 Type=simple
 Restart=always
 RestartSec=3600
-ExecStart=/home/ubuntu/temp_sense_script.py
+ExecStart=/home/[INSERT USERNAME HERE]/temp_sense_script.py
 
 [Install]
 WantedBy=multi-user.target
