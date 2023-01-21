@@ -1,0 +1,10 @@
+[Unit]
+Description=Service that manages the hourly recording of temperatures for 24 hours before sending them at 5 oclock and clearing the file for the next day
+[Service]
+Type=simple
+Restart=always
+RestartSec=40
+ExecStart=/home/csdept/daily_temps_recorder.py
+
+[Install]
+WantedBy=multi-user.target
