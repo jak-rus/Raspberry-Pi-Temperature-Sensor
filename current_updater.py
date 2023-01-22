@@ -18,12 +18,14 @@ while error:
             now = datetime.now()
             date = now.strftime("%d%m%y %H:%M:%S")
             error = False
+
         except RuntimeError as er:
             print(er.args[0])
             continue
+
 text = date+": Temp: {:.1f} F / {:.1f} C Humidity: {}% ".format(temperature_f, temperature_c, humidity)
 
 website = open("/var/www/html/current.html", "w")
-print("this is the text that should write to the file"+ text)
+#debug statement -> print("this is the text that should write to the file"+ text)
 website.write(text)
 website.close()

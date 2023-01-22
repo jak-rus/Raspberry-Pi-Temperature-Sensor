@@ -1,53 +1,67 @@
 <!DOCTYPE html>
 <html>
+
   <head>
+
     <title>Welcome to [NAME OF SENSOR DEVICE]!</title>
+
     <style>
+
       body {
         max-width: 500px;
         margin: 0 auto;
         font-family: Tahoma, Verdana, Arial, sans-serif;
         text-align: center;
+
       }
       #data{
         color: blue;
         font-weight:bold;
 
       }
+      
     </style>
-    <!-- CSS only -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous"> CSS only -->
   </head>
-  <body onload="loadCurrentTemperature()" >
+  <body onload="loadCurrentTemperature()">
+
     <h1>Welcome to Temp01!</h1>
     <p id="description" class="text">The server room temperature and humidity is : </p>
     <p>
+
       <p id = "data" class = "text" ></p>
       <br><br>
-      <!-- <p> <button onclick="loadCurrentTemperature()">Update Reading</button> </p> -->
-    <script>
-      function loadCurrentTemperature() {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onload = function () {
-          const current_temperature = xhttp.responseText;
-          console.log("current temp should print below this");
-          console.log(current_temperature);
-          updateTempOnPage(current_temperature);
-        };
-        xhttp.open("GET", "current.html");
-        xhttp.send(null);
-      }
-      function updateTempOnPage(current_temperature){
-        if(current_temperature === ""){
-          document.getElementById("data").innerHTML = "Fetching Most Recent Reading";
+        
+      <script>
+
+        function loadCurrentTemperature() {
+
+          const xhttp = new XMLHttpRequest();
+
+          xhttp.onload = function () {
+            const current_temperature = xhttp.responseText;
+            console.log("current temp should print below this");
+            console.log(current_temperature);
+            updateTempOnPage(current_temperature);
+
+          };
+
+          xhttp.open("GET", "current.html");
+          xhttp.send(null);
         }
-        else{
-          document.getElementById("data").innerHTML = current_temperature;
+        function updateTempOnPage(current_temperature){
+
+          if(current_temperature === ""){
+            document.getElementById("data").innerHTML = "Fetching Most Recent Reading";
+          }
+          else{
+            document.getElementById("data").innerHTML = current_temperature;
+          }
+
         }
-      }
-      setInterval(function(){loadCurrentTemperature();}, 30000);
-      
-    </script>
+
+        setInterval(function(){loadCurrentTemperature();}, 30000);
+        
+      </script>
     </p>
   </body>
 </html>
