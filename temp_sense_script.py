@@ -28,6 +28,7 @@ fileDict = {
          "11":"/home/ubuntu/monthLogs/November.txt",
          "12":"/home/ubuntu/monthLogs/December.txt"
          }
+
 filePath = fileDict.get(month)
 data = open(filePath, "r")
 line = data.readline()
@@ -43,13 +44,13 @@ logging.basicConfig(filename = filePath, level=logging.INFO)
 error = True
 while error:
     try:
-
         dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
 
         temperature_c = dhtDevice.temperature
         temperature_f = temperature_c * (9 / 5) + 32
         humidity = dhtDevice.humidity
         error = False
+
     except RuntimeError as er:
         print(er.args[0])
         continue
@@ -57,10 +58,8 @@ while error:
 logInfo =  date+": Temp: {:.1f} F / {:.1f} C Humidity: {}% ".format(
                     temperature_f, temperature_c, humidity
                     )
-print(
 
-        logInfo
-        )
+print(logInfo)
 logging.info(logInfo)
 
 sender= "[VALID SENDER EMAIL]"
@@ -77,7 +76,9 @@ if(temperature_f > 80.0 or humidity < 40.0):
         smtpObj = smtplib.SMTP('[smtp server address]')
         smtpObj.sendmail(sender, receivers, message.as_string())
         print("Successfully sent email")
+
     except SMTPException:
         print("Error: unable to send email")
+        
 if __name__=='__main__':
     sys.exit()

@@ -8,7 +8,8 @@ from datetime import datetime
 import sys
 import logging
 import sqlite3
-print("TEST")
+
+
 now = datetime.now()
 date = now.strftime("%d%m%y %H:%M:%S")
 #parses out the hour and minute from the date above 
@@ -24,13 +25,13 @@ if minute == "00":
     error = True
     while error:
         try:
-
             dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
 
             temperature_c = dhtDevice.temperature
             temperature_f = temperature_c * (9 / 5) + 32
             humidity = dhtDevice.humidity
             error = False
+
         except RuntimeError as er:
             print(er.args[0])
             continue
@@ -54,7 +55,7 @@ if hour == "17" and minute == "00":
     message["Subject"] = "Hourly Temperatures for last 24 hours in Server Room"
     message["From"] = sender
     message["To"] = COMMASPACE.join(receivers)
-    #high key i wonder if we will need to add a similar while loop here to make sure we dont get any errors and the email acutally sends
+    
     try:
         smtpObj = smtplib.SMTP('[smtp server address]')
         smtpObj.sendmail(sender, receivers, message.as_string())
@@ -62,11 +63,12 @@ if hour == "17" and minute == "00":
         data.write("")
         data.close()
         print("Successfully sent email")
+
     except SMTPException:
        print("Error: unable to send email")
 
     if __name__=='__main__':
         sys.exit()
 
-#important note: i structured the program where the sensor will record the 5 oclock temp before it sends the email, that way we dont have to record the five oclock tmep inside that if statement
+#important note: i structured the program where the sensor will record the 5 oclock temp before it sends the email, that way we dont have to record the five oclock temp inside that if statement
 #tldr: hourly recording first, so we can send email knowing we have all recorded temps
