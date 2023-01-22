@@ -40,26 +40,6 @@ if line and year !=  line[14:16]:
 
 logging.basicConfig(filename = filePath, level=logging.INFO)
 
-PATH_2_DB = '/home/ubuntu/temperatureReadings.db'
-
-##  Method To Add tempReadomng to the TempData table
-# note fahrenheit is spelt wrong, but don't change it because that is how its spelt in the DB
-def add_record(date, farehnheit, celsius, humidity, triggered):
-    conn = sqlite3.connect(PATH_2_DB) #connect to DB
-    cursor = conn.cursor()             #get a cursor to select table rows
-    #the datetime section is experimental. IF theres an error replace with a ? mark
-    sql = "INSERT INTO TempData(date,farehnheit,celsius,humidity,triggered) values (?,?,?,?,?) "
-    # print( type(farehnheit) , type(celsius) , type(humidity) , type(triggered)
-
-    print( datetime.today())
-    cursor.execute(sql, (datetime.today(), farehnheit, celsius, humidity, triggered))
-
-    conn.commit()   #commit
-    conn.close()    ## cleanup
-
-
-
-
 error = True
 while error:
     try:
