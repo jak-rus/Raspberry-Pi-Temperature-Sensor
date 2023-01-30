@@ -29,6 +29,7 @@ fileDict = {
          "12":"/home/ubuntu/monthLogs/December.txt"
          }
 
+messageType = 0
 filePath = fileDict.get(month)
 data = open(filePath, "r")
 line = data.readline()
@@ -65,13 +66,26 @@ logging.info(logInfo)
 sender= "[VALID SENDER EMAIL]"
 receivers = [LIST OF EMAILS AS STRINGS WITH EACH STRING SEPARATED BY A COMMA]
 
-message = MIMEText("The temperature of the server is currently "+str(temperature_f)+".\n the humidity is currently "+str(humidity)+".")
+#if either temperature or humidity have a concerning reading
+if temperature_f > 80.0 or humidity < 40.0:
+    #its not humidity
+    if humidity > 40.0:
+        message = MIMEText("The temperature of the server room is currently out of range with a temperature of "+str(temperature_f)+" F.\nThe humidity is currently "+str(humidity)+"%.")
+        message["Subject"] = "WARNING: Server Room Temperature Outside of Range"
 
-message["Subject"] = "Temperature/Humidity outside of range"
-message["From"] = sender
-message["To"] = COMMASPACE.join(receivers)
-
-if(temperature_f > 80.0 or humidity < 40.0):
+    #its not temperature
+    elif temperature_f < 80.0:
+        message = MIMEText("The humidity of the room is currently out of range with a reading of"+str(humidity)+"%.\nThe temperature of the server room is currently "+str(temperature_f)+" F." )
+        message["Subject"] = "WARNING: Server Room Humidity Outside of Range"
+    
+    #then it is both
+    else:
+        message = MIMEText("Both the Temperature and Humidity of the Server Room are out of range with values of "+str(temperature_f)+"F and "+str(humidity)+"% respectively")
+        message["Subject"] = "WARNING: Server Room Temperature and Humidity Outside of Range"
+    
+    message["From"] = sender
+    message["To"] = COMMASPACE.join(receivers)
+        
     try:
         smtpObj = smtplib.SMTP('[smtp server address]')
         smtpObj.sendmail(sender, receivers, message.as_string())
